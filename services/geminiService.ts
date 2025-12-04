@@ -13,9 +13,17 @@ export const streamGeminiResponse = async (
   userMessage: string,
   onChunk: (text: string) => void
 ): Promise<void> => {
-  // Check for API Key existence before trying to initialize the SDK.
-  // This prevents the "An API Key must be set..." error from the SDK constructor.
-  const apiKey = process.env.API_KEY;
+  // Check for API Key existence securely.
+  // We check if 'process' exists to avoid ReferenceError in environments where it's not polyfilled.
+  let apiKey = '';
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      apiKey = process.env.API_KEY || '';
+    }
+  } catch (e) {
+    // Ignore error if process access fails
+    console.warn("Could not access process.env");
+  }
   
   if (!apiKey) {
     onChunk("⚠️ 系统提示：未检测到 API Key。AI 助手暂时无法连接宇宙能量 (请检查环境配置)。");
