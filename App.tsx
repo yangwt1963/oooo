@@ -4,7 +4,7 @@ import Hero from './components/Hero';
 import CourseCard from './components/CourseCard';
 import AICoach from './components/AICoach';
 import { Course, CourseCategory } from './types';
-import { Leaf, Award, Heart, Mail } from 'lucide-react';
+import { Leaf, Award, Heart, Mail, Sun, Coffee, Moon } from 'lucide-react';
 
 // Mock Data
 const COURSES: Course[] = [
@@ -88,6 +88,45 @@ function App() {
       <Navbar />
       
       <Hero />
+
+      {/* Wellness Wisdom Section - NEW */}
+      <section className="py-12 bg-teal-50/50 border-b border-stone-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="text-center mb-10">
+              <h2 className="text-2xl font-bold text-teal-800">每日养生智慧</h2>
+              <p className="mt-2 text-stone-600">顺应自然节奏，找回身体的内在秩序</p>
+           </div>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                 <div className="flex items-center mb-4">
+                    <div className="p-2 bg-orange-100 rounded-full text-orange-600 mr-3">
+                       <Sun className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-lg text-stone-800">晨间唤醒</h3>
+                 </div>
+                 <p className="text-stone-600 text-sm leading-relaxed">一日之计在于晨。醒后饮一杯温水，做五分钟的拉伸或冥想，唤醒身体能量。</p>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                 <div className="flex items-center mb-4">
+                    <div className="p-2 bg-green-100 rounded-full text-green-600 mr-3">
+                       <Coffee className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-lg text-stone-800">饮食有节</h3>
+                 </div>
+                 <p className="text-stone-600 text-sm leading-relaxed">细嚼慢咽，七分饱足。多食当季蔬果，少食生冷油腻，滋养脾胃。</p>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                 <div className="flex items-center mb-4">
+                    <div className="p-2 bg-indigo-100 rounded-full text-indigo-600 mr-3">
+                       <Moon className="h-6 w-6" />
+                    </div>
+                    <h3 className="font-bold text-lg text-stone-800">子午觉</h3>
+                 </div>
+                 <p className="text-stone-600 text-sm leading-relaxed">中午小憩养心，晚上早睡养肝。保证充足的深度睡眠是最好的补药。</p>
+              </div>
+           </div>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section className="py-16 bg-white" id="about">

@@ -1,10 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
 
-// Initialize the Gemini API client
-// Ideally, in a production environment, you would proxy this through a backend to hide the API Key.
-// For this demo, we assume process.env.API_KEY is available.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const SYSTEM_INSTRUCTION = `
 You are "ZenBot", a compassionate, calm, and wise meditation and wellness coach for the "ZenFlow" platform. 
 Your goal is to help users find peace, recommend meditation courses (Free, Basic, or Bootcamp), and answer general wellness/health (养生) questions.
@@ -19,6 +14,10 @@ export const streamGeminiResponse = async (
   onChunk: (text: string) => void
 ): Promise<void> => {
   try {
+    // Initialize the client here to avoid top-level errors if API_KEY is missing during module load.
+    // Use an empty string as fallback to allow the constructor to pass, though requests will fail gracefully if key is invalid.
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+
     const chat = ai.chats.create({
       model: 'gemini-2.5-flash',
       config: {
@@ -40,6 +39,6 @@ export const streamGeminiResponse = async (
     }
   } catch (error) {
     console.error("Gemini API Error:", error);
-    onChunk("抱歉，我现在感觉不到与宇宙的连接 (网络错误)，请稍后再试。🙏");
+    onChunk("抱歉，我现在感觉不到与宇宙的连接 (API Key 配置问题或网络错误)，请检查设置。🙏");
   }
 };
