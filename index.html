@@ -33,5 +33,21 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module">
+  import React from "react";
+  import { createRoot } from "https://aistudiocdn.com/react-dom@19.2.1/client";
+  
+  function App() {
+    return (
+      <div class="text-3xl text-center mt-20">
+        你好，这是你的 React 页面！
+      </div>
+    );
+  }
+
+  const root = createRoot(document.getElementById("root"));
+  root.render(<App />);
+</script>
+
   </body>
 </html>
