@@ -4,9 +4,10 @@ import { Course } from '../types';
 
 interface CourseCardProps {
   course: Course;
+  onViewDetail: (course: Course) => void;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course, onViewDetail }) => {
   const getBadgeColor = (category: string) => {
     switch (category) {
       case 'free': return 'bg-green-100 text-green-800';
@@ -27,7 +28,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 
   return (
     <div className="flex flex-col rounded-2xl shadow-lg overflow-hidden bg-white hover:shadow-xl transition-shadow duration-300">
-      <div className="flex-shrink-0 relative">
+      <div className="flex-shrink-0 relative cursor-pointer" onClick={() => onViewDetail(course)}>
         <img className="h-48 w-full object-cover" src={course.imageUrl} alt={course.title} />
         <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getBadgeColor(course.category)}`}>
           {getCategoryName(course.category)}
@@ -44,10 +45,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
               <span className="ml-1 text-sm text-stone-500">{course.rating}</span>
             </div>
           </div>
-          <a href="#" className="block mt-2">
+          <div className="block mt-2 cursor-pointer" onClick={() => onViewDetail(course)}>
             <p className="text-xl font-semibold text-stone-900 group-hover:text-teal-600 transition-colors">{course.title}</p>
             <p className="mt-3 text-base text-stone-500 line-clamp-2">{course.description}</p>
-          </a>
+          </div>
         </div>
         <div className="mt-6 flex items-center justify-between">
           <div className="flex items-center text-sm text-stone-500">
@@ -59,7 +60,10 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             <p>{course.students} 人在学</p>
           </div>
         </div>
-        <button className="mt-4 w-full bg-stone-100 text-stone-800 font-medium py-2 px-4 rounded-lg hover:bg-stone-200 transition-colors">
+        <button 
+          onClick={() => onViewDetail(course)}
+          className="mt-4 w-full bg-stone-100 text-stone-800 font-medium py-2 px-4 rounded-lg hover:bg-stone-200 transition-colors"
+        >
           查看详情
         </button>
       </div>

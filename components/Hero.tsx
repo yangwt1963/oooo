@@ -1,7 +1,11 @@
 import React from 'react';
 import { PlayCircle } from 'lucide-react';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onAuthClick: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onAuthClick }) => {
   return (
     <div className="relative bg-stone-50 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -35,13 +39,13 @@ const Hero: React.FC = () => {
                   </a>
                 </div>
                 <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <a
-                    href="#"
+                  <button
+                    onClick={onAuthClick}
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-teal-700 bg-teal-100 hover:bg-teal-200 md:py-4 md:text-lg md:px-10"
                   >
                     <PlayCircle className="w-5 h-5 mr-2" />
                     免费体验
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Menu, X, Flower2 } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onAuthClick: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onAuthClick }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -9,19 +13,22 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center text-teal-800">
+            <div className="flex-shrink-0 flex items-center text-teal-800 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
               <Flower2 className="h-8 w-8 mr-2" />
               <span className="font-bold text-xl tracking-tight">ZenFlow 禅悦</span>
             </div>
             <div className="hidden md:ml-10 md:flex md:space-x-8">
-              <a href="#" className="text-stone-600 hover:text-teal-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">首页</a>
+              <a href="#" onClick={(e) => {e.preventDefault(); window.scrollTo(0,0)}} className="text-stone-600 hover:text-teal-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">首页</a>
               <a href="#courses" className="text-stone-600 hover:text-teal-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">冥想课程</a>
               <a href="#about" className="text-stone-600 hover:text-teal-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">关于养生</a>
               <a href="#community" className="text-stone-600 hover:text-teal-700 px-3 py-2 rounded-md text-sm font-medium transition-colors">社区</a>
             </div>
           </div>
           <div className="flex items-center">
-            <button className="hidden md:block bg-teal-700 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-teal-800 transition-colors shadow-sm">
+            <button 
+              onClick={onAuthClick}
+              className="hidden md:block bg-teal-700 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-teal-800 transition-colors shadow-sm"
+            >
               开始练习
             </button>
             <div className="-mr-2 flex md:hidden">
@@ -40,10 +47,16 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-white border-b border-stone-100">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="#" className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">首页</a>
-            <a href="#courses" className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">冥想课程</a>
-            <a href="#about" className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">关于养生</a>
-            <button className="w-full text-left bg-teal-50 text-teal-700 mt-2 block px-3 py-2 rounded-md text-base font-medium">
+            <a href="#" onClick={() => setIsOpen(false)} className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">首页</a>
+            <a href="#courses" onClick={() => setIsOpen(false)} className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">冥想课程</a>
+            <a href="#about" onClick={() => setIsOpen(false)} className="text-stone-700 hover:bg-stone-50 block px-3 py-2 rounded-md text-base font-medium">关于养生</a>
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                onAuthClick();
+              }}
+              className="w-full text-left bg-teal-50 text-teal-700 mt-2 block px-3 py-2 rounded-md text-base font-medium"
+            >
               开始练习
             </button>
           </div>

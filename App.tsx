@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import CourseCard from './components/CourseCard';
 import AICoach from './components/AICoach';
+import { AuthModal, CourseDetailModal } from './components/Modals';
 import { Course, CourseCategory } from './types';
 import { Leaf, Award, Heart, Mail, Sun, Coffee, Moon } from 'lucide-react';
 
@@ -78,18 +79,26 @@ const COURSES: Course[] = [
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState<CourseCategory>('all');
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const filteredCourses = selectedCategory === 'all' 
     ? COURSES 
     : COURSES.filter(c => c.category === selectedCategory);
 
+  const openAuthModal = () => setIsAuthModalOpen(true);
+  const closeAuthModal = () => setIsAuthModalOpen(false);
+
+  const openCourseDetail = (course: Course) => setSelectedCourse(course);
+  const closeCourseDetail = () => setSelectedCourse(null);
+
   return (
     <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-      <Navbar />
+      <Navbar onAuthClick={openAuthModal} />
       
-      <Hero />
+      <Hero onAuthClick={openAuthModal} />
 
-      {/* Wellness Wisdom Section - NEW */}
+      {/* Wellness Wisdom Section */}
       <section className="py-12 bg-teal-50/50 border-b border-stone-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
            <div className="text-center mb-10">
@@ -203,7 +212,11 @@ function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredCourses.map(course => (
-              <CourseCard key={course.id} course={course} />
+              <CourseCard 
+                key={course.id} 
+                course={course} 
+                onViewDetail={openCourseDetail}
+              />
             ))}
           </div>
 
@@ -224,12 +237,12 @@ function App() {
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">
-              <a
-                href="#"
+              <button
+                onClick={openAuthModal}
                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-teal-600 bg-white hover:bg-teal-50"
               >
                 免费注册
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -248,7 +261,7 @@ function App() {
             <h4 className="text-white font-medium mb-4">链接</h4>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="hover:text-white transition-colors">关于我们</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">课程列表</a></li>
+              <li><a href="#courses" className="hover:text-white transition-colors">课程列表</a></li>
               <li><a href="#" className="hover:text-white transition-colors">师资力量</a></li>
               <li><a href="#" className="hover:text-white transition-colors">联系我们</a></li>
             </ul>
@@ -268,6 +281,14 @@ function App() {
 
       {/* AI Chat Widget */}
       <AICoach />
+
+      {/* Modals */}
+      <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
+      <CourseDetailModal 
+        course={selectedCourse} 
+        isOpen={!!selectedCourse} 
+        onClose={closeCourseDetail} 
+      />
     </div>
   );
 }
