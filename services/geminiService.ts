@@ -13,10 +13,17 @@ export const streamGeminiResponse = async (
   userMessage: string,
   onChunk: (text: string) => void
 ): Promise<void> => {
+  // Check for API Key existence before trying to initialize the SDK.
+  // This prevents the "An API Key must be set..." error from the SDK constructor.
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey) {
+    onChunk("⚠️ 系统提示：未检测到 API Key。AI 助手暂时无法连接宇宙能量 (请检查环境配置)。");
+    return;
+  }
+
   try {
-    // Initialize the client here to avoid top-level errors if API_KEY is missing during module load.
-    // Use an empty string as fallback to allow the constructor to pass, though requests will fail gracefully if key is invalid.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    const ai = new GoogleGenAI({ apiKey });
 
     const chat = ai.chats.create({
       model: 'gemini-2.5-flash',
@@ -39,6 +46,6 @@ export const streamGeminiResponse = async (
     }
   } catch (error) {
     console.error("Gemini API Error:", error);
-    onChunk("抱歉，我现在感觉不到与宇宙的连接 (API Key 配置问题或网络错误)，请检查设置。🙏");
+    onChunk("抱歉，我现在感觉不到与宇宙的连接 (网络或服务错误)，请稍后再试。🙏");
   }
 };
